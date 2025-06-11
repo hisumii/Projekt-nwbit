@@ -2,6 +2,7 @@ import argparse
 import traceback
 import json
 import yaml
+import xmltodict
 
 parser = argparse.ArgumentParser(description="Konwerter plików JSON/XML/YAML")
 parser.add_argument('input_file', help='Plik wejściowy')
@@ -33,7 +34,11 @@ elif args.input_file.endswith('.yml') or args.input_file.endswith('.yaml'):
         except Exception as e:
             print("Nie udało się zapisać pliku YAML. ", traceback.format_exc())
 elif args.input_file.endswith('.xml'):
-    # wczytaj XML
+    with open(args.input_file, 'r') as f:
+        try:
+            data = xmltodict.parse(f.read())
+        except Exception as e:
+            print("Nie udało się wczytać pliku XML. ", traceback.format_exc())
 else:
     print("Nieznany format pliku!")
 
