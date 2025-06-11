@@ -39,6 +39,12 @@ elif args.input_file.endswith('.xml'):
             data = xmltodict.parse(f.read())
         except Exception as e:
             print("Nie udało się wczytać pliku XML. ", traceback.format_exc())
+
+    with open(args.output_file, 'w') as f:
+        try:
+            f.write(xmltodict.unparse(data, pretty=True))
+        except Exception as e:
+            print("Nie udało się zapisać pliku XML. ", traceback.format_exc())
 else:
     print("Nieznany format pliku!")
 
