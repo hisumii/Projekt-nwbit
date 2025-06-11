@@ -27,6 +27,11 @@ elif args.input_file.endswith('.yml') or args.input_file.endswith('.yaml'):
         except Exception as e:
             print("Nie udało się wczytać pliku YAML. ", traceback.format_exc())
 
+    with open(args.output_file, 'w') as f:
+        try:
+            yaml.dump(data, f)
+        except Exception as e:
+            print("Nie udało się zapisać pliku YAML. ", traceback.format_exc())
 elif args.input_file.endswith('.xml'):
     # wczytaj XML
 else:
