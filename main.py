@@ -12,3 +12,9 @@ with open(args.input_file, 'r') as f:
         data = json.load(f)
     except Exception as e:
         print("Nie udało się wczytać pliku JSON. ", traceback.format_exc())
+
+with open(args.output_file, 'w') as f:
+    try:
+        json.dump(data, f, indent=2)
+    except Exception as e:
+        print("Nie udało się zapisać pliku JSON. ", traceback.format_exc())
