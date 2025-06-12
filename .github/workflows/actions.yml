@@ -1,0 +1,49 @@
+name: Build and Deploy Converter
+
+on:
+  push:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: .\installResources.ps1
+
+    - name: Build executable
+      run: |
+        pyinstaller --onefile --name konwerter main.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: konwerter-exe
+        path: dist/konwerter.exe
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: konwerter-exe
+
+    - name: Create release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: konwerter.exe
