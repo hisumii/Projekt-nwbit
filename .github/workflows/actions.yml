@@ -53,6 +53,7 @@ jobs:
         name: konwerter-exe
 
     - name: Create tag
+      id: Create_tag
       run: |
         TAG="release-$(date +'%Y%m%d-%H%M%S')"
         echo "tag=$TAG" >> $GITHUB_OUTPUT
